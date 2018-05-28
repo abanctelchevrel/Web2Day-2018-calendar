@@ -24,15 +24,17 @@ artoo.injectScript('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js'
       var eventStartTime = moment(getParams.dates.split('/')[0]).format("h:mm A")
       var eventEndDate = moment(getParams.dates.split('/')[1]).format("DD/MM/YY")
       var eventEndTime = moment(getParams.dates.split('/')[1]).format("h:mm A")
+      var link = el.siblings( "a.event-link").attr('href');
+
       return {
         "Subject" : name,
         "Start Date" : eventStartDate,
         "Start Time" : eventStartTime,
         "End Date" : eventEndDate,
         "End Time" : eventEndTime,
-        "All Day Event" : 'False',
-        // "Description" : '', //Todo, ajouter le speaker, la track et le lien
-        "Location" : location
+        "Description" : '', //Todo, ajouter le speaker, la track et le lien
+        "Location" : location,
+        link: link
       }
     }
 

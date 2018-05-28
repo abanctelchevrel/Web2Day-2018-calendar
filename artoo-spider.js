@@ -1,0 +1,153 @@
+var trackMapping = {
+  '276': {name: 'Startup & entrepreneurship', picto: '🚀'},
+  '277': {name: 'Market, com & media', picto: '💵'},
+  '280': {name: 'Society & FTW', picto: '👐'},
+  '332': {name: 'Design', picto: '🖌'},
+  '278': {name: 'Tech', picto: '💻'},
+  '279': {name: 'Corporate', picto: '💼'},
+}
+
+var venueMapping = {
+  Atlanbois: "🌳",
+  Chapitalk: "🎪",
+  'Maxi, Stereolux': "↔️",
+  'Mediacampus, Forum': "🎓",
+  "Micro, Stereolux": "🔬",
+  Trempolino: " 🚌"
+};
+function generateDesc(obj) {
+  // debugger;
+  var venuePicto = venueMapping[obj.Location];
+  var trackPicto = trackMapping[obj._trackId].picto;
+  return (
+    obj._titleCheck +
+    "\n" +
+    obj._eventDescription +
+    "\n" +
+    obj._speakers + 
+    "\n" +
+    "\n" +
+    venuePicto + '=' + obj.Location +
+    "\n" +
+     trackPicto + '=' + trackMapping[obj._trackId].name 
+  );
+}
+
+function generateTitle(obj) {
+  // debugger;
+  var venuePicto = venueMapping[obj.Location];
+  var trackPicto = trackMapping[obj._trackId].picto;
+  return (
+    venuePicto + '·' + trackPicto + '·' +obj._titleCheck
+  );
+}
+
+artoo.injectScript(
+  "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js",
+  function() {
+    artoo.injectScript(
+      "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js",
+      function() {
+        artoo.injectScript(
+          "//cdnjs.cloudflare.com/ajax/libs/URI.js/1.19.1/URI.js",
+          function() {
+            var eventScraper = {
+              iterator: "#main",
+              data: {
+                _titleCheck: { sel: ".page-title", method: "text" },
+                _eventDescription: { sel: ".editor", method: "text" },
+                _speakers : function($) {
+                  var speakerList = '';
+                  $(this).find( ".panel-speaker" ).each(function( index, el ) {
+                    speakerList += $(el).find('.speaker-name').text() + ', ' + $(el).find('.speaker-job').text() + '\n';
+                  });
+                  return speakerList;
+
+                },
+                // _speakerNam: { sel: ".speaker-name", method: "text" },
+                // _speakerJob: { sel: ".speaker-job", method: "text" }
+
+                // Description: function($) {
+                //   var name = $(this)
+                //     .find(".speaker-name")
+                //     .text();
+                //   var job = $(this)
+                //     .find(".speaker-job")
+                //     .text();
+                //   var eventTitle = $(this)
+                //     .find(".page-title")
+                //     .text();
+                //   var description = $(this)
+                //     .find(".panel-description .editor")
+                //     .text();
+                //   return (
+                //     eventTitle + "\n" + description + "\n" + name + " – " + job
+                //   );
+                // }
+              }
+            };
+
+            function getEventDetails(el) {
+              var uri = new URI(el.attr("href"));
+              var getParams = uri.search(true);
+              var name = getParams.text.split("[Web2day]")[1];
+              var location = getParams.location;
+              var eventStartDate = moment(getParams.dates.split("/")[0]).format(
+                "DD/MM/YY"
+              );
+              var eventStartTime = moment(getParams.dates.split("/")[0]).format(
+                "h:mm A"
+              );
+              var eventEndDate = moment(getParams.dates.split("/")[1]).format(
+                "DD/MM/YY"
+              );
+              var eventEndTime = moment(getParams.dates.split("/")[1]).format(
+                "h:mm A"
+              );
+              var link = el.siblings("a.event-link").attr("href");
+              var trackId = el.parent().parent().attr("data-univ");
+
+              return {
+                // Subject: name,
+                "Start Date": eventStartDate,
+                "Start Time": eventStartTime,
+                "End Date": eventEndDate,
+                "End Time": eventEndTime,
+                // Description: "", //Todo, ajouter le speaker, la track et le lien
+                Location: location,
+                _link: link,
+                _trackId: trackId
+              };
+            }
+
+            var frontpage = artoo
+              .scrape("div.event-gcal a.event-gcal", function($) {
+                return getEventDetails($(this));
+              })
+              // .slice(0, 2);
+
+            var allUrls = frontpage.map(value => value._link);
+            artoo.ajaxSpider(allUrls, {
+              // limit: 2,
+              throttle: 10,
+              scrape: eventScraper,
+              concat: true,
+              done: function(dataFromDetailPage) {
+                const flatData = _.zipWith(
+                  frontpage,
+                  dataFromDetailPage,
+                  function(a, b) {
+                    return _.merge({}, a, b);
+                  }
+                ).map(row => {
+                  return _.extend({}, row, { Description: generateDesc(row) , Subject : generateTitle(row)});
+                });
+                artoo.saveCsv(flatData, { filename: "web2day.csv" });
+              }
+            });
+          }
+        );
+      }
+    );
+  }
+);
