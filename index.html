@@ -3,13 +3,251 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>Web2Day 2018 calendar</title>
   <meta name="description" content="The handy Google Calendar for Web2Day 2018">
 
-  <!-- <link rel="stylesheet" href="styles.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure.css">
+  <style>
+    /*
+Pure CSS modal box
+Author: Jorge Chavez
+Github: http://github.com/jorgechavz
+*/
 
+
+.modal .checkbox{
+  display: none;
+}
+
+/* Gray background */
+.modal .modal-overlay{
+  opacity: 0;
+  transition: all 0.3s ease;
+  width: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  transform: scale(1);
+  display: none;
+  background-color: rgba(0,0,0,0.7);
+}
+
+/* Box */
+.modal .modal-wrap{
+  background-color: #fff;
+  box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+  padding: 20px;
+  width: 90%;
+  margin: 20px auto;
+  align-self: flex-start;
+  border-radius: 2px;
+  transition: all 0.5s ease;
+  max-width: 500px;
+}
+.modal .modal-wrap.small{
+  width: 30%;
+}
+.modal .modal-wrap.full{
+  width: 100%;
+  height: 100%;
+}
+
+.modal .modal-wrap.a-center {
+  align-self: center;
+}
+.modal .modal-wrap.from-left {
+  transform: translateX(-100%);
+}
+.modal .modal-wrap.from-right {
+  transform: translateX(100%);
+}
+.modal .modal-wrap.from-top {
+  transform: translateY(-100%);
+}
+.modal .modal-wrap.from-bottom {
+  transform: translateY(100%);
+}
+
+
+/* Close button */
+.modal .modal-overlay .close{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 40px;
+  width: 30px;
+  height: 30px;
+  color: #282c34;
+}
+
+.modal .modal-overlay .close:hover{
+  cursor: pointer;
+  color: #4b5361;
+}
+
+
+ .modal .o-close {
+   width: 100%;
+   height: 100%;
+   position: fixed;
+   left: 0;
+   top: 0;
+   z-index: -100;
+ }
+
+.modal input:checked ~ .o-close {
+  z-index: 9998;
+}
+.modal input:checked ~ .modal-overlay{
+  transform: scale(1);
+  opacity:1;
+  z-index: 9997;
+  overflow: auto;
+  display: flex;
+  animation-duration: 0.5s;
+  animation-name: fade-in;
+  -moz-animation-duration: 0.5s;
+  -moz-animation-name: fade-in;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-name: fade-in;
+}
+.modal input:checked ~ .modal-overlay .modal-wrap {
+  transform: translateY(0);
+  z-index: 9999;
+}
+
+
+#embeded-gcal {
+  border-width:0;
+  width: 1px;
+  min-width: 100%;
+  *width: 100%;
+  height: calc(100vh - 80px);
+}
+
+
+/* Responsive Design */
+/* Tablet size */
+@media (min-width: 800px){
+  
+  body {
+    background: rgb(35,177,165);
+    background: -moz-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    background: linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#23b1a5",endColorstr="#239db1",GradientType=1);
+  }
+
+  .container {
+    -webkit-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    -moz-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+    background: white;
+    border-radius: 13px;
+    padding: 20px;
+    height: 70vh;
+    position: relative;
+
+  }
+
+  #embeded-gcal {
+    height: 100%;
+  }
+  
+  #howto-btn {
+    position: relative;
+  }
+}
+
+#howto-btn {
+  position: fixed;
+  bottom: 10px;background-color: #e95280;
+  color: white;
+  border-radius: 24px;
+  margin: 0 10px;
+  -webkit-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  -moz-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+}
+/* Fadein from display:none */
+@keyframes fade-in {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fade-in {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+
+
+a {
+  text-decoration: none;
+    color: #e95280;
+}
+a:visited {
+    color: #e95280;
+}
+a:hover {
+    color: #E50046;
+}
+a:focus {
+    color: #E50046;
+}
+a:active {
+    color: #E50046;
+}
+a,
+a label {
+    cursor: pointer;
+}
+
+  </style>
 
 <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
@@ -18,8 +256,38 @@
 
 <body class="">
   <div class="container">
-    <iframe src="https://calendar.google.com/calendar/embed?title=Web2Day%202018&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=me1aiqtt9fo32k44l4ipjlhego%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FParis" style="border-width:0; width: 1px;min-width: 100%;*width: 100%;height: 80vh;" frameborder="0" scrolling="no"></iframe>  <!-- <script src="js/scripts.js"></script> -->
+    <iframe src="https://calendar.google.com/calendar/embed?title=Web2Day%202018&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showTz=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=me1aiqtt9fo32k44l4ipjlhego%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FParis" id="embeded-gcal" frameborder="0" scrolling="no"></iframe>  <!-- <script src="js/scripts.js"></script> -->
   </div>
+  <a id="howto-btn">  
+    <label for="modal-trigger" style="line-height: 38px; padding: 10px;">🤔</label>
+  </a>
+
+<div class="modal">
+  <input id="modal-trigger" class="checkbox" type="checkbox">
+  <div class="modal-overlay">
+    <label for="modal-trigger" class="o-close"></label>
+    <div class="modal-wrap">
+      <label for="modal-trigger" class="close">&#10006;</label>
+      <p><img src="carte-web2day.png" alt="" style="width: 100%"></p>
+      Design 🖌 ·
+      Startup & entrepreneurship 🚀 ·
+      Tech 💻 ·
+      Market, com & media 💵 ·
+      Corporate 💼 ·
+      Society & FTW
+      </p>
+      <p>Conseil d'utilisation : 
+        <ul>
+          <li>Ajoutez le calendrier public à votre compte en cliquant sur <img src="google-button.png" alt="" style="display: inline-block;height: 14px;"></li>
+          <li>Créez un nouveau calendrier (ex: "Web2Day wishlist")</li>
+          <li>Copiez dans "Web2Day wishlist" les évènements qui vous intéressent</li>
+        </ul></p>
+      <p>
+        <a href="https://web2day.co/programme/">Site officiel Web2Day→</a>  ⬥  <a href="https://twitter.com/chevreuil">👋</a>
+      </p>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
