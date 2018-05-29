@@ -155,8 +155,6 @@ Github: http://github.com/jorgechavz
     border-radius: 13px;
     padding: 20px;
     height: 70vh;
-    position: relative;
-
   }
 
   #embeded-gcal {
@@ -164,20 +162,24 @@ Github: http://github.com/jorgechavz
   }
   
   #howto-btn {
-    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+    border-radius: 40px;
+  }
+}
+@media (max-width: 800px){
+  #howto-btn {
+    position: fixed;
+    bottom: 10px;
+    border-radius: 24px;
+    margin: 0 10px;
   }
 }
 
-#howto-btn {
-  position: fixed;
-  bottom: 10px;background-color: #e95280;
-  color: white;
-  border-radius: 24px;
-  margin: 0 10px;
-  -webkit-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-  -moz-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-  box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-}
 /* Fadein from display:none */
 @keyframes fade-in {
   0% {
@@ -224,7 +226,30 @@ Github: http://github.com/jorgechavz
   }
 }
 
+#howto-btn {
+  color: white;
+  background-color: #e95280;
+  -webkit-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  -moz-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+}
 
+#howto-btn:visited {
+    background-color: #e95280;
+}
+#howto-btn:hover {
+    background-color: #e74375;
+}
+#howto-btn:focus {
+    background-color: #e74375;
+}
+#howto-btn:active {
+    background-color: #e74375;
+}
+#howto-btn,
+#howto-btn label {
+    cursor: pointer;
+}
 
 a {
   text-decoration: none;
@@ -255,8 +280,9 @@ a label {
 </head>
 
 <body class="">
+  <h1 style="display: none ">The missing public GCal for Web2Day</h1>
   <div class="container">
-    <iframe src="https://calendar.google.com/calendar/embed?title=Web2Day%202018&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showTz=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=me1aiqtt9fo32k44l4ipjlhego%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FParis" id="embeded-gcal" frameborder="0" scrolling="no"></iframe>  <!-- <script src="js/scripts.js"></script> -->
+    <iframe src="https://calendar.google.com/calendar/embed?title=Web2Day%202018,%20the%20missing%20calendar&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showTz=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=me1aiqtt9fo32k44l4ipjlhego%40group.calendar.google.com&amp;color=%23691426&amp;ctz=Europe%2FParis" id="embeded-gcal" frameborder="0" scrolling="no"></iframe>  <!-- <script src="js/scripts.js"></script> -->
   </div>
   <a id="howto-btn">  
     <label for="modal-trigger" style="line-height: 38px; padding: 10px;">🤔</label>
