@@ -5,11 +5,135 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>Web2Day 2018 calendar</title>
-  <meta name="description" content="The handy Google Calendar for Web2Day 2018">
+  <meta name="description" content="The missing Google Calendar for Web2Day 2018">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure.css">
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="The missing Google Calendar for Web2Day 2018">
+  <meta name="twitter:site" content="@chevreuil">
+  <meta name="twitter:title" content="Web2Day 2018">
+  <meta name="twitter:creator" content="@chevreuil">
+  <meta name="twitter:image" content="https://abanctelchevrel.github.io/Web2Day-2018-calendar/carte-web2day.png">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="The missing Google Calendar for Web2Day 2018" />
+  <meta property="og:url" content="https://abanctelchevrel.github.io/Web2Day-2018-calendar/" />
+  <meta property="og:image" content="https://abanctelchevrel.github.io/Web2Day-2018-calendar/carte-web2day.png" />
+  <meta property="og:description" content="Web2Day 2018" /> 
+
+
   <style>
-    /*
+
+body {
+  color: #333;
+}
+#embeded-gcal {
+  border-width:0;
+  /*Force the iframe width*/
+  width: 1px;
+  min-width: 100%;
+  *width: 100%;
+  height: calc(100vh - 80px);
+}
+
+#howto-btn {
+  color: white;
+  background-color: #e95280;
+  -webkit-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  -moz-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+  box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
+}
+
+#howto-btn:visited {
+    background-color: #e95280;
+}
+#howto-btn:hover {
+    background-color: #e74375;
+}
+#howto-btn:focus {
+    background-color: #e74375;
+}
+#howto-btn:active {
+    background-color: #e74375;
+}
+#howto-btn,
+#howto-btn label {
+    cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+    color: #e95280;
+}
+a:visited {
+    color: #e95280;
+}
+a:hover {
+    color: #E50046;
+}
+a:focus {
+    color: #E50046;
+}
+a:active {
+    color: #E50046;
+}
+a,
+a label {
+    cursor: pointer;
+}
+
+
+/* Responsive Design */
+/* Tablet size */
+@media (min-width: 700px){
+  
+  body {
+    background: rgb(35,177,165);
+    background: -moz-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    background: linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#23b1a5",endColorstr="#239db1",GradientType=1);
+  }
+
+  .container {
+    -webkit-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    -moz-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
+    background: white;
+    border-radius: 13px;
+    padding: 20px;
+    height: 70vh;
+  }
+
+  #embeded-gcal {
+    height: 100%;
+  }
+  
+  #howto-btn {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+    border-radius: 40px;
+  }
+}
+
+@media (max-width: 700px){
+  #howto-btn {
+    position: fixed;
+    bottom: 10px;
+    border-radius: 24px;
+    margin: 0 10px;
+  }
+}
+
+/*
 Pure CSS modal box
 Author: Jorge Chavez
 Github: http://github.com/jorgechavz
@@ -122,64 +246,6 @@ Github: http://github.com/jorgechavz
 }
 
 
-#embeded-gcal {
-  border-width:0;
-  width: 1px;
-  min-width: 100%;
-  *width: 100%;
-  height: calc(100vh - 80px);
-}
-
-
-/* Responsive Design */
-/* Tablet size */
-@media (min-width: 800px){
-  
-  body {
-    background: rgb(35,177,165);
-    background: -moz-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
-    background: -webkit-linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
-    background: linear-gradient(90deg, rgba(35,177,165,1) 0%, rgba(35,157,177,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#23b1a5",endColorstr="#239db1",GradientType=1);
-  }
-
-  .container {
-    -webkit-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
-    -moz-box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
-    box-shadow: 6px 0px 66px -9px rgba(0,0,0,0.63);
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10vh;
-    background: white;
-    border-radius: 13px;
-    padding: 20px;
-    height: 70vh;
-  }
-
-  #embeded-gcal {
-    height: 100%;
-  }
-  
-  #howto-btn {
-    margin-left: auto;
-    margin-right: auto;
-    width: 40px;
-    margin-top: 20px;
-    display: block;
-    padding: 10px;
-    border-radius: 40px;
-  }
-}
-@media (max-width: 800px){
-  #howto-btn {
-    position: fixed;
-    bottom: 10px;
-    border-radius: 24px;
-    margin: 0 10px;
-  }
-}
-
 /* Fadein from display:none */
 @keyframes fade-in {
   0% {
@@ -226,51 +292,6 @@ Github: http://github.com/jorgechavz
   }
 }
 
-#howto-btn {
-  color: white;
-  background-color: #e95280;
-  -webkit-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-  -moz-box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-  box-shadow: 6px 0px 15px -4px rgba(0,0,0,0.63);
-}
-
-#howto-btn:visited {
-    background-color: #e95280;
-}
-#howto-btn:hover {
-    background-color: #e74375;
-}
-#howto-btn:focus {
-    background-color: #e74375;
-}
-#howto-btn:active {
-    background-color: #e74375;
-}
-#howto-btn,
-#howto-btn label {
-    cursor: pointer;
-}
-
-a {
-  text-decoration: none;
-    color: #e95280;
-}
-a:visited {
-    color: #e95280;
-}
-a:hover {
-    color: #E50046;
-}
-a:focus {
-    color: #E50046;
-}
-a:active {
-    color: #E50046;
-}
-a,
-a label {
-    cursor: pointer;
-}
 
   </style>
 
@@ -309,8 +330,9 @@ a label {
           <li>Copiez dans "Web2Day wishlist" les évènements qui vous intéressent</li>
         </ul></p>
       <p>
-        <a href="https://web2day.co/programme/">Site officiel Web2Day→</a>  ⬥  <a href="https://twitter.com/chevreuil">👋</a>
+        <a href="https://web2day.co/programme/" target="_blank">Site officiel Web2Day</a>  ⬥  <a href="https://twitter.com/chevreuil" target="_blank">👋</a>
       </p>
+      <p style="font-style: italic; color: #b7b7b7; font-size: 0.8em;">dernière mise à jour le 28 mai</p>
     </div>
   </div>
 </div>
