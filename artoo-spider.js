@@ -13,7 +13,7 @@ var venueMapping = {
   'Maxi, Stereolux': "↔️",
   'Mediacampus, Forum': "🎓",
   "Micro, Stereolux": "🔬",
-  Trempolino: " 🚌"
+  Trempolino: "🚌"
 };
 function generateDesc(obj) {
   // debugger;
