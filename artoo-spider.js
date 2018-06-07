@@ -18,7 +18,15 @@ var venueMapping = {
 function generateDesc(obj) {
   // debugger;
   var venuePicto = venueMapping[obj.Location];
-  var trackPicto = trackMapping[obj._trackId].picto;
+  if (trackMapping[obj._trackId]) {  
+    var trackPicto = trackMapping[obj._trackId].picto;
+    var trackName = trackMapping[obj._trackId].name;
+    var trackInfo = trackPicto + '=' +trackName;
+  } else {
+    console.log('missing track');
+    console.log(obj);
+    trackInfo = '';
+  }
   return (
     obj._titleCheck +
     "\n" +
@@ -29,14 +37,14 @@ function generateDesc(obj) {
     "\n" +
     venuePicto + '=' + obj.Location +
     "\n" +
-     trackPicto + '=' + trackMapping[obj._trackId].name 
+     trackInfo
   );
 }
 
 function generateTitle(obj) {
   // debugger;
   var venuePicto = venueMapping[obj.Location];
-  var trackPicto = trackMapping[obj._trackId].picto;
+  var trackPicto = trackMapping[obj._trackId] ? trackMapping[obj._trackId].picto : ' ';
   return (
     venuePicto + '·' + trackPicto + '·' +obj._titleCheck
   );
@@ -55,7 +63,14 @@ artoo.injectScript(
               iterator: "#main",
               data: {
                 _titleCheck: { sel: ".page-title", method: "text" },
-                _eventDescription: { sel: ".editor", method: "text" },
+                // _eventDescription: { sel: ".editor", method: "text" },
+                _eventDescription: function($) {
+                  return $('.editor')
+                    .contents()
+                    .filter((i, el)=>{
+                      return  !$(el).hasClass('gform_wrapper') && !$(el).is('script')})
+                    .text()
+                },
                 _speakers : function($) {
                   var speakerList = '';
                   $(this).find( ".panel-speaker" ).each(function( index, el ) {
