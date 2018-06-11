@@ -16,7 +16,6 @@ var venueMapping = {
   Trempolino: "🚌"
 };
 function generateDesc(obj) {
-  // debugger;
   var venuePicto = venueMapping[obj.Location];
   var trackPicto = trackMapping[obj._trackId].picto;
   return (
@@ -55,7 +54,14 @@ artoo.injectScript(
               iterator: "#main",
               data: {
                 _titleCheck: { sel: ".page-title", method: "text" },
-                _eventDescription: { sel: ".editor", method: "text" },
+                _eventDescription: function($) {
+                  const description = $(this).find('.editor')
+                    .contents()
+                    .filter((i, el)=>{
+                      return  !$(el).hasClass('gform_wrapper') && !$(el).is('script')})
+                    .text()
+                    return description
+                },
                 _speakers : function($) {
                   var speakerList = '';
                   $(this).find( ".panel-speaker" ).each(function( index, el ) {
@@ -64,26 +70,6 @@ artoo.injectScript(
                   return speakerList;
 
                 },
-                // _speakerNam: { sel: ".speaker-name", method: "text" },
-                // _speakerJob: { sel: ".speaker-job", method: "text" }
-
-                // Description: function($) {
-                //   var name = $(this)
-                //     .find(".speaker-name")
-                //     .text();
-                //   var job = $(this)
-                //     .find(".speaker-job")
-                //     .text();
-                //   var eventTitle = $(this)
-                //     .find(".page-title")
-                //     .text();
-                //   var description = $(this)
-                //     .find(".panel-description .editor")
-                //     .text();
-                //   return (
-                //     eventTitle + "\n" + description + "\n" + name + " – " + job
-                //   );
-                // }
               }
             };
 

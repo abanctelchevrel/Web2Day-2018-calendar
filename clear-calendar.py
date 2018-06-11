@@ -24,8 +24,8 @@ from oauth2client.client import AccessTokenRefreshError
 from oauth2client.client import OAuth2WebServerFlow
 
 # For this example, the client id and client secret are command-line arguments.
-client_id = sys.argv[1]
-client_secret = sys.argv[2]
+client_id = '556554463405-1n2jdlvtjkmvbbtv8msuj95aol6129rb.apps.googleusercontent.com'
+client_secret = 'OCzQuiOLVpgp3y_ByQMzOcQj'
 
 # The scope URL for read/write access to a user's calendar data
 scope = 'https://www.googleapis.com/auth/calendar'
