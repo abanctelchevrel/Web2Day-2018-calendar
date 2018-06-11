@@ -17,7 +17,15 @@ var venueMapping = {
 };
 function generateDesc(obj) {
   var venuePicto = venueMapping[obj.Location];
-  var trackPicto = trackMapping[obj._trackId].picto;
+  if (trackMapping[obj._trackId]) {  
+    var trackPicto = trackMapping[obj._trackId].picto;
+    var trackName = trackMapping[obj._trackId].name;
+    var trackInfo = trackPicto + '=' +trackName;
+  } else {
+    console.log('missing track');
+    console.log(obj);
+    trackInfo = '';
+  }
   return (
     obj._titleCheck +
     "\n" +
@@ -28,14 +36,14 @@ function generateDesc(obj) {
     "\n" +
     venuePicto + '=' + obj.Location +
     "\n" +
-     trackPicto + '=' + trackMapping[obj._trackId].name 
+     trackInfo
   );
 }
 
 function generateTitle(obj) {
   // debugger;
   var venuePicto = venueMapping[obj.Location];
-  var trackPicto = trackMapping[obj._trackId].picto;
+  var trackPicto = trackMapping[obj._trackId] ? trackMapping[obj._trackId].picto : ' ';
   return (
     venuePicto + '·' + trackPicto + '·' +obj._titleCheck
   );
